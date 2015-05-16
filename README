@@ -1,6 +1,6 @@
 ===================================
-**GPACKAGE**: a package manager for IDL
-(*Giorgio Calderone, giorgio.calderone@gmail.com*)
+GPACKAGE: a package manager for IDL
+(Giorgio Calderone, giorgio.calderone@gmail.com)
 
 
 gpackage is a simple package manager for the IDL programming language.
