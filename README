@@ -1,0 +1,112 @@
+===================================
+GPACKAGE: a package manager for IDL
+(Giorgio Calderone, giorgio.calderone@gmail.com)
+
+
+gpackage is a simple package manager for the IDL programming language.
+
+
+________
+LICENSE:
+
+The GPACKAGE library is by no mean supposed to be complete, nor well
+documented or error-free.  It is released under the GNU General Public
+License, and is provided "as is", in the hope that it will be useful.
+
+Contributions are welcome!  Feel free to drop me an email if you found
+a bug or would like to participate in developing.
+
+
+___________
+MOTIVATION:
+
+ The IDL programming language currently lacks a dedicated package
+ manager able to compile a specific version of a library (on a
+ specific path) upon request.  All IDL routines are rather stored in a
+ path named in the IDL_PATH system variable, and then compiled as
+ needed.  The problems with this approach are:
+
+ - the IDL_PATH system must be changed each time we wish to add a
+   new routine in a new path (unknown to IDL_PATH);
+
+ - the paths in the IDL_PATH system variable may accidentally
+   contains multiple versions of the same routine, possibly
+   leading to unexpected behaviour.
+
+The advantages of using the GPACKAGE library are:
+
+ - avoid changing the IDL_PATH system variable to include these
+   routines;
+
+ - compile EXACTLY the routines needed by your code, avoiding
+   incompatibilities with other versions eventually present in
+   IDL_PATH.  This is particular important for contributed routines,
+   which may be present multiple times in IDL_PATH.
+
+ - work with monolithic package libraries, characterised by their
+   own version number.  This is useful to replicate results obtained
+   with a specific version.
+
+
+_____________
+DEPENDENCIES:
+
+None.
+
+
+_____________
+INSTALLATION:
+
+Copy the GPACKAGE routines in a local directory on your computer, and
+modify IDL_PATH system variable accordingly (check the IDL
+documentation for more info on the IDL_PATH system variable).
+
+NOTE: The packages you wish to manage are NOT SUPPOSED to
+be reachable through the IDL_PATH system variable.
+
+____
+USE:
+
+The calls to "gpackage" are supposed to be used in an initialization
+procedure to correctly setup an IDL session:
+
+gpackage, 'Path/to/the/Package/I/Wish/To/initialize/packageName.pro' $
+          [,  OPT_KEYWORD1= [, OPT_KEYWORD2= [, ...]]]
+
+This call will compile the packageName.pro file and call the
+packageName function, whose prototype is:
+
+  FUNCTION packageName, path, OPT_KEYWORD1=, OPT_KEYWORD2=, etc...
+     ...
+     (Compile further routines through calls to gcompile_file)
+     ...
+  
+     RETURN, 'packageVersion'
+  END
+
+
+The "path" argument contain the current path where the package is
+stored.  The kewyords are transparently handled through the EXTRA=
+facility.
+
+The return value must be the package version identifier.  This may
+used in later checks through gpackage_require.
+
+
+______________________________
+BRIEF DESCRIPTION OF ROUTINES:
+(in alphabetical order)
+
+gcompile_file    - Compile a .pro file (it is a replacement for the .COMPILE executive command)
+gpackage	 - Compile and initialize a package
+gpackage_require - Ensure a (specific version of a)  package has been correctly compiled and initialized, or raise an error otherwise.
+
+
+__________
+FILE LIST:
+
+The GPACKAGE libraries file list is:
+gcompile_file.pro
+gpackage.pro
+gpackage_require.pro
+README
